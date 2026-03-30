@@ -82,7 +82,7 @@
             align-items: center;
         }
 
-        /* NEW: Sleek Welcome Line */
+        /* Sleek Welcome Line */
         .welcome-line {
             background: var(--primary);
             color: #FFFFFF;
@@ -101,7 +101,7 @@
             text-decoration: none;
         }
         .site-logo {
-            max-height: 90px; 
+            max-height: 180px; /* DOUBLED from 90px to 180px */
             width: auto;
             object-fit: contain;
             transition: transform 0.3s ease;
@@ -189,7 +189,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 140px 5% 40px; /* Increased top padding to accommodate the new welcome line */
+            padding: 220px 5% 40px; /* Increased top padding to 220px to prevent header overlapping hero */
             gap: 50px;
             background: radial-gradient(circle at top right, rgba(255,122,31,0.05) 0%, transparent 40%);
         }
@@ -556,7 +556,7 @@
 
         /* Responsive */
         @media(max-width: 900px) {
-            .hero { flex-direction: column; text-align: center; padding-top: 150px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 250px; }
             .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
             .hero-image .frame-3-side { height: 400px; }
             .nav-links { display: none; }
