@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In Property Point | Premium Real Estate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Aesthetic Base & Variables --- */
+        :root {
+            --primary: #FF7A1F; /* Softer, aesthetic orange */
+            --bg-light: #FAFAFA; /* Off-white aesthetic background */
+            --bg-card: #FFFFFF;
+            --text-dark: #2C2C2C;
+            --text-gray: #6B6B6B;
+            --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Smooth Scroll Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3 { color: var(--text-dark); font-weight: 600; }
+        .text-orange { color: var(--primary); }
+        p { line-height: 1.8; color: var(--text-gray); font-weight: 300; }
+
+        /* --- Navbar --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            background: rgba(250, 250, 250, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        .logo { font-size: 1.4rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;}
+        .logo span { color: var(--primary); }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 40px;
+            transition: var(--transition);
+            border: 1px solid var(--primary);
+            letter-spacing: 1px;
+        }
+        .btn:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 122, 31, 0.15);
+        }
+
+        /* --- Aesthetic 3-Sided Frame (Arch) --- */
+        .frame-3-side {
+            position: relative;
+            padding: 15px 15px 0 15px;
+            border-top: 2px solid var(--primary);
+            border-left: 2px solid var(--primary);
+            border-right: 2px solid var(--primary);
+            border-bottom: none;
+            border-radius: 200px 200px 0 0;
+            display: inline-block;
+        }
+        .frame-3-side img {
+            border-radius: 185px 185px 0 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 5% 40px;
+            gap: 50px;
+            background: radial-gradient(circle at top right, #fff4ec 0%, transparent 40%);
+        }
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            animation: fadeRight 1s ease-out forwards;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 122, 31, 0.1);
+            color: var(--primary);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+        }
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: fadeLeft 1s ease-out forwards;
+        }
+        .hero-image .frame-3-side {
+            width: 100%;
+            max-width: 450px;
+            height: 600px;
+        }
+
+        /* --- Sections --- */
+        section { padding: 100px 5%; }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* --- About Us --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .about-grid .frame-3-side {
+            max-width: 400px;
+            height: 500px;
+            margin: auto;
+        }
+
+        /* --- Expertise / Properties We Deal In --- */
+        .expertise-section {
+            background-color: var(--bg-card);
+        }
+        .expertise-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+        }
+        .expertise-card {
+            background: var(--bg-light);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+        .expertise-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 122, 31, 0.08);
+            border-color: rgba(255, 122, 31, 0.2);
+            background: white;
+        }
+        .expertise-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .expertise-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        .expertise-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* --- Testimonials --- */
+        .testimonials {
+            padding: 100px 5%;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .test-card {
+            background: var(--bg-card);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .test-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        }
+        
+        .avatar-frame {
+            width: 100px;
+            height: 110px;
+            margin: 0 auto 20px;
+            padding: 4px 4px 0 4px;
+            border-top: 1.5px solid var(--primary);
+            border-left: 1.5px solid var(--primary);
+            border-right: 1.5px solid var(--primary);
+            border-bottom: none;
+            border-radius: 60px 60px 0 0;
+            display: inline-block;
+        }
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 56px 56px 0 0;
+            display: block;
+        }
+
+        .test-card p {
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .test-card h4 {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+        .test-card small {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* --- Contact & Location --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+        }
+        .contact-info h3 { margin-bottom: 30px; font-size: 1.5rem; }
+        .info-item {
+            margin-bottom: 25px;
+        }
+        .info-item span {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .info-item a, .info-item p {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .map-box {
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .map-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Keyframes */
+        @keyframes fadeRight {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeLeft {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive */
+        @media(max-width: 900px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 120px; }
+            .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
+            .hero-image .frame-3-side { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">IN PROPERTY <span>POINT</span></div>
+        <a href="mailto:contact@inpropertypoint.com" class="btn">Connect With Us</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✨ We Are Officially Live</div>
+            <h1>Elevate Your <span class="text-orange">Lifestyle</span></h1>
+            <p>Welcome to In Property Point. The wait is over. Discover a curated selection of premium real estate designed for modern living and thriving businesses.</p>
+            <a href="tel:+919311911740" class="btn">Explore Properties</a>
+        </div>
+        <div class="hero-image">
+            <div class="frame-3-side">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Aesthetic Modern Home">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="reveal">
+        <div class="about-grid">
+            <div style="text-align: center;">
+                <div class="frame-3-side">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Beautiful Interior">
+                </div>
+            </div>
+            <div>
+                <h2>Our <span class="text-orange">Vision</span></h2>
+                <p>At In Property Point, we have officially launched to bridge the gap between extraordinary spaces and those who seek them. We believe your property should be a reflection of your ambition and taste.</p>
+                <br>
+                <p>Located in the thriving hub of NX-1 Tower-1, Techzone 4, our team brings localized expertise wrapped in a premium, stress-free experience. Whether you are buying your dream home or securing a strategic commercial space, we are here to guide you.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise-section reveal">
+        <div class="section-header">
+            <h2>Properties We <span class="text-orange">Deal In</span></h2>
+            <p class="expertise-subtitle">Comprehensive Real Estate Solutions — Sell • Purchase • Renting<br>Serving clients all across Delhi NCR.</p>
+        </div>
+        
+        <div class="expertise-grid">
+            <div class="expertise-card">
+                <div class="expertise-icon">🏢</div>
+                <h4>Apartments & Flats</h4>
+                <p>Premium 2BHK, 3BHK, and luxury residential apartments for modern living.</p>
+            </div>
+            
+            <div class="expertise-card">
+                <div class="expertise-icon">🗺️</div>
+                <h4>Plots & Land</h4>
+                <p>High-value residential and commercial plots ready for your vision and investment.</p>
+            </div>
+            
+            <div class="expertise-card">
+                <div class="expertise-icon">🏭</div>
+                <h4>Godowns & Commercial</h4>
+                <p>Spacious godowns, warehouses, and prime office spaces to scale your business.</p>
+            </div>
+            
+            <div class="expertise-card">
+                <div class="expertise-icon">🌾</div>
+                <h4>Farms & Agricultural</h4>
+                <p>Expansive farmlands and scenic farmhouses perfect for retreats or cultivation.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials reveal">
+        <div class="section-header">
+            <h2>Client <span class="text-orange">Stories</span></h2>
+            <p>Hear from those who have already found their point of perfection.</p>
+        </div>
+        
+        <div class="testimonial-grid">
+            <div class="test-card">
+                <div class="avatar-frame">
+                    <img src="https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Indian woman modern portrait">
+                </div>
+                <p>"The aesthetic and attention to detail at In Property Point are unmatched. They understood exactly what I was looking for and delivered beyond expectations."</p>
+                <h4>Priya Sharma</h4>
+                <small>Homeowner</small>
+            </div>
+
+            <div class="test-card">
+                <div class="avatar-frame">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Portrait of a smiling brown man">
+                </div>
+                <p>"Securing our new commercial space was effortless. Their launch brings a much-needed tier of professionalism to the Greater Noida real estate market."</p>
+                <h4>Rajesh Kumar</h4>
+                <small>Business Director</small>
+            </div>
+
+            <div class="test-card">
+                <div class="avatar-frame">
+                    <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Man wearing striped shirt uses laptop">
+                </div>
+                <p>"A brilliant platform. The transparency, the premium listings, and the ease of communication make In Property Point my go-to for future investments."</p>
+                <h4>Amit Patel</h4>
+                <small>Property Investor</small>
+            </div>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h3>Get In Touch</h3>
+                
+                <div class="info-item">
+                    <span>Call Us</span>
+                    <a href="tel:+919311911740">+91 93119 11740</a>
+                </div>
+
+                <div class="info-item">
+                    <span>Email Us</span>
+                    <a href="mailto:contact@inpropertypoint.com">contact@inpropertypoint.com</a>
+                </div>
+                
+                <div class="info-item">
+                    <span>Visit Us</span>
+                    <p>NX-1 Tower-1,UG-24<br>Tech Zone IV, <br>Greater Noida West, Uttar Pradesh</p>
+                </div>
+                
+                <div class="info-item">
+                    <span>Working Hours</span>
+                    <p>Mon - Sat | 10:00 AM - 7:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="map-box">
+                <iframe src="https://maps.google.com/maps?q=NX-ONE,+Gaur+Chowk,+Plot+No.+17,+Tech+Zone+IV,+Amrapali+Dream+Valley,+Greater+Noida,+Uttar+Pradesh+201318&t=k&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 In Property Point. Designed for the modern lifestyle.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); 
+        });
+    </script>
+</body>
+</html>
