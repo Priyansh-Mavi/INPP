@@ -86,7 +86,6 @@
             align-items: center;
         }
 
-        /* Welcome Line inside Header */
         .welcome-line {
             background: var(--primary);
             color: #FFFFFF;
@@ -99,32 +98,55 @@
             width: 100%;
         }
 
-        /* Logo Styles */
+        /* Logo Zoom & Styles */
         .logo-link {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             text-decoration: none;
         }
+        .logo-wrapper {
+            width: 65px;
+            height: 65px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px; 
+            background: #FFFFFF;
+        }
         .site-logo {
-            max-height: 45px; 
-            width: auto;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.85); 
             transition: transform 0.3s ease;
         }
-        .site-logo:hover {
-            transform: scale(1.05);
+        .logo-link:hover .site-logo {
+            transform: scale(1.95); 
+        }
+        .logo-text-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .main-title {
-            color: var(--text-dark);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
+            line-height: 1.1;
+            color: var(--text-dark);
             transition: color 0.4s ease;
         }
-        .main-title span {
-            color: var(--primary);
+        .punchline {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-gray);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.4s ease;
         }
 
         .nav-links {
@@ -173,6 +195,7 @@
             border: 1px solid var(--primary);
             letter-spacing: 1px;
             cursor: pointer;
+            text-align: center;
         }
         .btn:hover {
             background: transparent;
@@ -200,13 +223,91 @@
             object-fit: cover;
         }
 
+        /* --- Floating Social Icons --- */
+        .floating-socials {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+        }
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            color: var(--primary);
+            border-radius: 0 10px 10px 0;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-left: none;
+        }
+        .social-icon:hover {
+            width: 65px;
+            background: var(--primary);
+            color: #FFFFFF;
+        }
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        
+        /* WhatsApp Hover Dropdown */
+        .whatsapp-wrapper {
+            position: relative;
+        }
+        .whatsapp-options {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 0 10px 10px 0;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .whatsapp-wrapper:hover .whatsapp-options {
+            opacity: 1;
+            visibility: visible;
+        }
+        .whatsapp-options a {
+            padding: 12px 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.3s ease;
+        }
+        .whatsapp-options a:last-child {
+            border-bottom: none;
+        }
+        .whatsapp-options a:hover {
+            background: var(--bg-light);
+            color: var(--primary);
+        }
+
         /* --- Hero Section --- */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 140px 5% 40px; /* Increased to account for taller header */
+            padding: 140px 5% 40px; 
             gap: 50px;
             background: radial-gradient(circle at top right, rgba(255,122,31,0.05) 0%, transparent 40%);
         }
@@ -323,6 +424,36 @@
             left: 0;
             color: var(--primary);
             font-weight: bold;
+        }
+
+        /* --- Areas We Deal In --- */
+        .area-row {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-bottom: 80px;
+        }
+        .area-row.reverse {
+            flex-direction: row-reverse;
+        }
+        .area-text {
+            flex: 1;
+        }
+        .area-text h3 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        .area-image {
+            flex: 1;
+        }
+        .area-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
         }
 
         /* --- Featured Properties --- */
@@ -532,12 +663,6 @@
             resize: none;
             height: 120px;
         }
-        .response-time {
-            font-size: 0.85rem;
-            color: var(--text-gray);
-            margin-top: 10px;
-            text-align: left;
-        }
 
         .map-box {
             width: 100%;
@@ -560,25 +685,32 @@
         
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px 40px;
             background: var(--bg-card);
             border-top: 1px solid var(--border-color);
         }
-
-        /* Keyframes */
-        @keyframes fadeRight {
-            from { opacity: 0; transform: translateX(-40px); }
-            to { opacity: 1; transform: translateX(0); }
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            transition: color 0.4s ease;
         }
-        @keyframes fadeLeft {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
+        .footer-service-area {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            line-height: 1.6;
         }
 
         /* Responsive */
         @media(max-width: 900px) {
-            .hero { flex-direction: column; text-align: center; padding-top: 150px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 160px; }
             .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
+            .area-row, .area-row.reverse { flex-direction: column; text-align: center; gap: 30px; }
             .hero-image .frame-3-side { height: 400px; }
             .nav-links { display: none; }
         }
@@ -586,15 +718,53 @@
 </head>
 <body>
 
+    <div class="floating-socials">
+        <div class="whatsapp-wrapper">
+            <a href="javascript:void(0)" class="social-icon" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.996 2.001a9.962 9.962 0 0 0-8.474 15.228l-1.521 5.556 5.679-1.494a9.96 9.96 0 1 0 4.316-19.29zM12 19.957a7.925 7.925 0 0 1-4.04-1.111l-.29-.172-3.003.79.799-2.927-.189-.3A7.944 7.944 0 1 1 12 19.957zm4.27-5.836c-.234-.117-1.385-.684-1.6-.763-.214-.078-.37-.117-.525.117-.156.234-.604.764-.741.921-.137.157-.274.176-.508.059-.234-.117-.988-.364-1.884-1.121-.698-.588-1.168-1.314-1.305-1.549-.137-.234-.015-.361.102-.478.105-.105.234-.273.351-.41.117-.136.156-.234.234-.391.078-.156.039-.292-.02-.409-.059-.117-.525-1.267-.719-1.736-.188-.458-.38-.396-.525-.403-.137-.007-.293-.007-.449-.007s-.409.059-.624.293c-.215.234-.819.8-1.026 1.488-.206.688.31 1.956.883 2.715.572.76 1.838 2.802 4.453 3.931 2.615 1.129 2.615.753 3.083.714.468-.039 1.485-.606 1.696-1.191.211-.585.211-1.085.148-1.191-.063-.106-.219-.165-.453-.282z"/>
+                </svg>
+            </a>
+            <div class="whatsapp-options">
+                <a href="https://wa.me/919311911740" target="_blank">Contact 1: +91 93119 11740</a>
+                <a href="https://wa.me/919899961255" target="_blank">Contact 2: +91 98999 61255</a>
+            </div>
+        </div>
+
+        <a href="https://www.instagram.com/in_property_point" target="_blank" class="social-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+        </a>
+
+        <a href="http://www.youtube.com/@inpropertypoint" target="_blank" class="social-icon" aria-label="YouTube">
+            <svg viewBox="0 0 24 24">
+                <path d="M21.582 6.186c-.23-.86-.908-1.538-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768C7.746 20 12 20 12 20s6.254 0 7.814-.418c.86-.23 1.538-.908 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L16 12l-6 3.464z"/>
+            </svg>
+        </a>
+
+        <a href="#" target="_blank" class="social-icon" aria-label="Facebook">
+            <svg viewBox="0 0 24 24">
+                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+            </svg>
+        </a>
+    </div>
+
     <header>
         <div class="header-main">
             <a href="https://inpropertypoint.com" class="logo-link">
-                <img src="SItelogo.PNG" alt="In Property Point Logo" class="site-logo">
-                <span class="main-title">IN PROPERTY <span>POINT</span></span>
+                <div class="logo-wrapper">
+                    <img src="SItelogo.PNG" alt="In Property Point Logo" class="site-logo">
+                </div>
+                <div class="logo-text-container">
+                    <span class="main-title"><span class="text-orange">IN</span> PROPERTY POINT</span>
+                    <span class="punchline">Where Property Meets Trust</span>
+                </div>
             </a>
             
             <nav class="nav-links">
-                <a href="#about">About</a>
+                <a href="#areas">Areas</a>
+                <a href="#process">Process</a>
                 <a href="#expertise">Services</a>
                 <a href="#contact">Contact</a>
             </nav>
@@ -678,7 +848,44 @@
             </div>
         </section>
 
-        <section id="featured" class="reveal">
+        <section id="areas" class="reveal">
+            <div class="section-header">
+                <h2>Areas We <span class="text-orange">Deal In</span></h2>
+                <p class="subtitle">Prime locations for your next big investment or dream home.</p>
+            </div>
+
+            <div class="area-row">
+                <div class="area-text">
+                    <h3>1. Greater Noida</h3>
+                    <p>Known for its robust infrastructure, wide open green spaces, and meticulously planned sectors. Greater Noida is the perfect blend of peaceful residential living and booming commercial opportunities, offering high-end apartments, independent villas, and expansive commercial plots.</p>
+                </div>
+                <div class="area-image">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Greater Noida Real Estate">
+                </div>
+            </div>
+
+            <div class="area-row reverse">
+                <div class="area-text">
+                    <h3>2. Yamuna Expressway</h3>
+                    <p>The rapidly emerging hub of connectivity and mega-developments. With upcoming infrastructure projects, international airports nearby, and industrial corridors, the Yamuna Expressway is a hotspot for high-yield investments, sprawling farmlands, and futuristic commercial spaces.</p>
+                </div>
+                <div class="area-image">
+                    <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Yamuna Expressway Real Estate">
+                </div>
+            </div>
+
+            <div class="area-row">
+                <div class="area-text">
+                    <h3>3. Greater Noida West</h3>
+                    <p>Often referred to as Noida Extension, this is one of the most vibrant, fast-growing residential hubs in the Delhi NCR region. Perfect for modern families, offering a wide variety of premium high-rise apartments, bustling shopping complexes, and seamless connectivity to the rest of the city.</p>
+                </div>
+                <div class="area-image">
+                    <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Greater Noida West Real Estate">
+                </div>
+            </div>
+        </section>
+
+        <section id="featured" class="reveal expertise-section">
             <div class="section-header">
                 <h2>Featured <span class="text-orange">Listings</span></h2>
                 <p>Handpicked premium properties ready for you.</p>
@@ -728,7 +935,7 @@
             </div>
         </section>
 
-        <section id="expertise" class="expertise-section reveal">
+        <section id="expertise" class="reveal">
             <div class="section-header">
                 <h2>Properties We <span class="text-orange">Deal In</span></h2>
                 <p class="subtitle">Comprehensive Real Estate Solutions — Sell • Purchase • Renting<br>Serving clients all across Delhi NCR.</p>
@@ -758,7 +965,7 @@
             </div>
         </section>
 
-        <section class="testimonials reveal">
+        <section class="testimonials reveal expertise-section">
             <div class="section-header">
                 <h2>Client <span class="text-orange">Stories</span></h2>
                 <p>Hear from those who have already found their point of perfection.</p>
@@ -868,7 +1075,8 @@
                     
                     <div class="info-item">
                         <span>Call Us</span>
-                        <a href="tel:+919311911740">+91 93119 11740</a>
+                        <a href="tel:+919311911740">+91 93119 11740</a><br>
+                        <a href="tel:+919899961255" style="margin-top: 5px; display: inline-block;">+91 98999 61255</a>
                     </div>
 
                     <div class="info-item">
@@ -883,43 +1091,23 @@
                     
                     <div class="info-item">
                         <span>Working Hours</span>
-                        <p>Mon - Sat | 09:00 AM - 08:00 PM</p>
-                    </div>
-
-                    <div class="info-item">
-                        <span>Follow Us</span>
-                        <p style="font-size: 0.95rem; margin-bottom: 5px;">For the latest & quickest updates:</p>
-                        <a href="https://www.instagram.com/in_property_point" target="_blank" style="color: var(--primary); font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                            in_property_point
-                        </a>
+                        <p>Thu - Tue | 10:00 AM - 08:00 PM<br>Wednesday | Closed</p>
                     </div>
                 </div>
                 
                 <div class="contact-form">
                     <h3>Send Us a Message</h3>
-                    <form onsubmit="event.preventDefault(); alert('Form submitted successfully!');">
+                    <form action="https://formspree.io/f/mdaprizg" method="POST">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Your Full Name" required>
+                            <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Your Email Address" required>
+                            <input type="email" name="email" class="form-control" placeholder="Your Email" required>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" required>
-                                <option value="" disabled selected>What are you looking for?</option>
-                                <option value="buy">Looking to Buy</option>
-                                <option value="sell">Looking to Sell</option>
-                                <option value="rent">Looking to Rent</option>
-                            </select>
+                            <textarea name="message" class="form-control" placeholder="Your Message" required></textarea>
                         </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Tell us more about your requirement..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn" style="width: 100%;">Submit Inquiry</button>
-                        <p class="response-time">Response time 1-2 hrs</p>
+                        <button type="submit" class="btn" style="width: 100%;">Send</button>
                     </form>
                 </div>
             </div>
@@ -931,6 +1119,10 @@
     </div>
 
     <footer>
+        <div class="footer-logo">
+            <span class="text-orange">IN</span> <span class="main-title" style="color: var(--text-dark); transition: color 0.4s ease;">PROPERTY POINT</span>
+        </div>
+        <p class="footer-service-area">Real estate services across Greater Noida, Yamuna Expressway, Greater Noida West and nearby areas.</p>
         <p>© 2026 In Property Point. Made with ♥️ in India | Priyansh & Team</p>
     </footer>
 
