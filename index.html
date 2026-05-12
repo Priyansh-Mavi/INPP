@@ -6,7 +6,6 @@
     <title>In Property Point | Premium Real Estate</title>
     
     <link rel="icon" href="LOGO.jpeg" type="image/jpeg">
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* --- Aesthetic Base & Variables --- */
@@ -204,7 +203,7 @@
             box-shadow: 0 10px 20px rgba(255, 122, 31, 0.15);
         }
 
-        /* --- Aesthetic 3-Sided Frame (Arch) --- */
+        /* --- Aesthetic 3-Sided Frame (Arch & Sliding Support) --- */
         .frame-3-side {
             position: relative;
             padding: 15px 15px 0 15px;
@@ -214,6 +213,13 @@
             border-bottom: none;
             border-radius: 200px 200px 0 0;
             display: inline-block;
+            overflow: hidden;
+        }
+        .frame-3-side .slider-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 1s ease-in-out;
         }
         .frame-3-side img {
             border-radius: 185px 185px 0 0;
@@ -221,6 +227,28 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* --- Slider Dots --- */
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+            width: 100%;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 122, 31, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dot.active {
+            background-color: var(--primary);
+            transform: scale(1.3);
         }
 
         /* --- Floating Social Icons (Colored) --- */
@@ -283,43 +311,6 @@
         .whatsapp-options a:last-child { border-bottom: none; }
         .whatsapp-options a:hover { background: var(--bg-light); color: #25D366; }
 
-        /* --- Map Showcase Specific Styles --- */
-        .map-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px 0;
-        }
-        .map-item {
-            cursor: pointer;
-            overflow: hidden;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-            height: 150px;
-        }
-        .map-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-        .map-item:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .map-item:hover img { transform: scale(1.05); }
-
-        .lightbox-modal {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            padding-top: 50px;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(5px);
-        }
-        .lightbox-content {
-            margin: auto; display: block; width: 90%; max-width: 1000px; max-height: 80vh;
-            object-fit: contain; border-radius: 10px; animation: zoomIn 0.3s ease;
-        }
-        .close-lightbox {
-            position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;
-        }
-        @keyframes zoomIn { from {transform: scale(0.7); opacity: 0;} to {transform: scale(1); opacity: 1;} }
-
         /* --- Sections --- */
         section { padding: 100px 5%; }
         .section-header { text-align: center; margin-bottom: 60px; }
@@ -354,12 +345,32 @@
         }
         .hero h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 25px; }
         .hero p { font-size: 1.1rem; margin-bottom: 35px; }
+        
         .hero-image { flex: 1; display: flex; justify-content: center; animation: fadeLeft 1s ease-out forwards; }
-        .hero-image .frame-3-side { width: 100%; max-width: 450px; height: 600px; }
+        .hero-image-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 450px; }
+        .hero-image .frame-3-side { width: 100%; max-width: 100%; height: 600px; }
 
-        /* --- About Us --- */
+        /* --- About Us / Vision --- */
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .about-grid .frame-3-side { max-width: 400px; height: 500px; margin: auto; }
+        .vision-image-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; margin: auto; }
+        .vision-image-wrapper .frame-3-side { width: 100%; max-width: 100%; height: 500px; }
+
+        /* Text Slider in Vision Section */
+        .vision-text-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+        .vision-text-slider {
+            display: flex;
+            transition: transform 1s ease-in-out;
+            width: 100%;
+        }
+        .vision-text-slide {
+            width: 100%;
+            flex-shrink: 0;
+            padding-right: 15px; /* Adds slight breathing room */
+            box-sizing: border-box;
+        }
 
         /* --- Process --- */
         .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
@@ -370,6 +381,15 @@
         .process-list { list-style: none; padding: 0; text-align: left; }
         .process-list li { margin-bottom: 12px; color: var(--text-gray); font-size: 0.95rem; position: relative; padding-left: 25px; }
         .process-list li::before { content: '✓'; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+
+        /* --- Continuous Running Maps --- */
+        .map-slider-section { padding: 60px 0; overflow: hidden; background: var(--bg-card); }
+        .map-track { display: flex; width: max-content; animation: scroll-maps 40s linear infinite; }
+        .map-track:hover { animation-play-state: paused; }
+        .map-slide { width: 300px; height: 200px; margin: 0 15px; border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); cursor: pointer; transition: transform 0.3s ease; flex-shrink: 0; }
+        .map-slide:hover { transform: scale(1.05); }
+        .map-slide img { width: 100%; height: 100%; object-fit: cover; }
+        @keyframes scroll-maps { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- Areas --- */
         .area-row { display: flex; align-items: center; gap: 50px; margin-bottom: 80px; }
@@ -402,7 +422,7 @@
         .testimonials { padding: 100px 0; background-color: var(--bg-card); overflow: hidden; }
         .testimonials .section-header { padding: 0 5%; }
         .testimonial-container { width: 100%; overflow: hidden; display: flex; padding: 20px 0; }
-        .testimonial-track { display: flex; width: max-content; animation: scroll 30s linear infinite; }
+        .testimonial-track { display: flex; width: max-content; animation: scroll-test 30s linear infinite; }
         .testimonial-track:hover { animation-play-state: paused; }
         .test-card { width: 350px; margin: 0 20px; background: var(--bg-light); padding: 40px 30px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); transition: var(--transition); flex-shrink: 0; }
         .test-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
@@ -411,27 +431,54 @@
         .test-card p { font-size: 0.95rem; font-style: italic; margin-bottom: 20px; }
         .test-card h4 { color: var(--text-dark); font-size: 1.1rem; margin-bottom: 5px; }
         .test-card small { color: var(--primary); font-weight: 500; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes scroll-test { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- Contact --- */
+        /* --- Lightbox Modal --- */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            padding-top: 50px;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        .lightbox-content {
+            margin: auto; display: block; width: 90%; max-width: 1100px; max-height: 80vh;
+            object-fit: contain; border-radius: 10px; animation: zoomIn 0.3s ease;
+        }
+        .close-lightbox { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; }
+        @keyframes zoomIn { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+
+        /* --- Contact Form & Location --- */
         .contact-wrapper { display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; background: var(--bg-card); padding: 50px; border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid var(--border-color); }
         .contact-info h3, .contact-form h3 { margin-bottom: 30px; font-size: 1.5rem; }
         .info-item { margin-bottom: 25px; }
         .info-item span { display: block; font-weight: 600; color: var(--primary); margin-bottom: 5px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
         .info-item a, .info-item p { color: var(--text-dark); text-decoration: none; font-size: 1.1rem; }
+        
+        .form-group { margin-bottom: 20px; }
         .form-control { width: 100%; padding: 15px; border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-light); color: var(--text-dark); font-size: 1rem; outline: none; transition: border-color 0.3s ease; }
+        .form-control:focus { border-color: var(--primary); }
+        textarea.form-control { resize: none; height: 120px; }
+
         .map-box { width: 100%; height: 350px; border-radius: 20px; overflow: hidden; margin-top: 50px; border: 1px solid var(--border-color); }
         .map-box iframe { width: 100%; height: 100%; border: none; }
 
+        /* --- Footer --- */
+        .main-content { flex: 1; }
         footer { text-align: center; padding: 60px 20px 40px; background: var(--bg-card); border-top: 1px solid var(--border-color); }
         .footer-logo { font-size: 2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; color: var(--text-dark); transition: color 0.4s ease; }
         .footer-service-area { color: var(--text-gray); font-size: 0.95rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.6; }
 
+        /* Responsive */
         @media(max-width: 900px) {
             .hero { flex-direction: column; text-align: center; padding-top: 160px; }
             .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
             .area-row, .area-row.reverse { flex-direction: column; text-align: center; gap: 30px; }
+            .hero-image-wrapper { height: 400px; }
             .hero-image .frame-3-side { height: 400px; }
+            .vision-image-wrapper { height: auto; }
             .nav-links { display: none; }
         }
     </style>
@@ -457,7 +504,7 @@
 
     <header>
         <div class="header-main">
-            <a href="https://inpropertypoint.com" class="logo-link">
+            <a href="index.html" class="logo-link">
                 <div class="logo-wrapper"><img src="SLCROPED.PNG" alt="In Property Point Logo" class="site-logo"></div>
                 <div class="logo-text-container">
                     <span class="main-title"><span class="text-orange">IN</span> PROPERTY POINT</span>
@@ -465,7 +512,11 @@
                 </div>
             </a>
             <nav class="nav-links">
-                <a href="#areas">Areas</a><a href="#process">Process</a><a href="#expertise">Services</a><a href="#contact">Contact</a>
+                <a href="maps.html">Maps</a>
+                <a href="#areas">Areas</a>
+                <a href="team.html">Team</a>
+                <a href="#expertise">Services</a>
+                <a href="#contact">Contact</a>
             </nav>
             <div class="header-actions">
                 <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">🌙</button>
@@ -483,17 +534,67 @@
                 <p>Welcome to In Property Point. The wait is over. Discover a curated selection of premium real estate designed for modern living and thriving businesses.</p>
                 <a href="#featured" class="btn">Explore Properties</a>
             </div>
-            <div class="hero-image"><div class="frame-3-side"><img src="prashant-jb_7u6dHmpo-unsplash.jpg" alt="Aesthetic Modern Home"></div></div>
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <div class="frame-3-side">
+                        <div class="slider-container" id="heroSlider">
+                            <img src="prashant-jb_7u6dHmpo-unsplash.jpg" alt="Home 1">
+                            <img src="shantanu-goyal-7JOsUeoD8go-unsplash.jpg" alt="Home 2">
+                        </div>
+                    </div>
+                    <div class="slider-dots" id="heroDots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- UPDATED ABOUT / VISION SECTION -->
         <section id="about" class="reveal">
             <div class="about-grid">
-                <div style="text-align: center;"><div class="frame-3-side"><img src="vinit-kumar-singh-xszn9xz3gcs-unsplash.jpg" alt="Beautiful Interior"></div></div>
-                <div>
-                    <h2>Our <span class="text-orange">Vision</span></h2>
-                    <p>At In Property Point, we have officially launched to bridge the gap between extraordinary spaces and those who seek them. We believe your property should be a reflection of your ambition and taste.</p>
-                    <br>
-                    <p>Located in the thriving hub of NX-1 Tower-1, Techzone 4, our team brings localized expertise wrapped in a premium, stress-free experience. Whether you are buying your dream home or securing a strategic commercial space, we are here to guide you.</p>
+                
+                <!-- Left Column: Image Slider -->
+                <div style="text-align: center;">
+                    <div class="vision-image-wrapper">
+                        <div class="frame-3-side">
+                            <div class="slider-container" id="visionSlider">
+                                <img src="vinit-kumar-singh-xszn9xz3gcs-unsplash.jpg" alt="Vision 1" style="cursor: pointer;">
+                                <img src="pexels-om-dixit-14758773.jpg" alt="Vision 2" style="cursor: pointer;">
+                            </div>
+                        </div>
+                        <!-- Dots for the Vision Section -->
+                        <div class="slider-dots" id="visionDots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Synced Text Slider -->
+                <div class="vision-text-wrapper">
+                    <div class="vision-text-slider" id="visionTextSlider">
+                        
+                        <!-- Slide 1 Text -->
+                        <div class="vision-text-slide">
+                            <h2>Where Property <span class="text-orange">Meets Trust</span></h2>
+                            <p>In real estate, a building is more than just brick and mortar; it is a milestone. Whether it’s a first home or a strategic commercial investment, every transaction represents a significant chapter in our clients' lives. This is why our guiding principle is simple yet absolute: Where Property Meets Trust.</p>
+                            <br>
+                            <p>We believe that expertise is hollow without integrity. Our mission is to bridge the gap between physical assets and peace of mind. To achieve this, we operate on three core pillars:</p>
+                        </div>
+
+                        <!-- Slide 2 Text -->
+                        <div class="vision-text-slide">
+                            <h2>Our Core <span class="text-orange">Pillars</span></h2>
+                            <ul class="process-list" style="margin-bottom: 20px; margin-top: 10px;">
+                                <li><strong style="color: var(--text-dark);">Transparency:</strong> Providing clear, honest data so you can make informed decisions.</li>
+                                <li><strong style="color: var(--text-dark);">Precision:</strong> Tailoring property solutions to fit your specific goals, not just the market trend.</li>
+                                <li><strong style="color: var(--text-dark);">Accountability:</strong> Standing by our commitments long after the handshake.</li>
+                            </ul>
+                            <p>We don't just facilitate deals; we build relationships. When you choose us, you aren't just securing a property—you are gaining a partner dedicated to your security and success.</p>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </section>
@@ -531,68 +632,24 @@
             </div>
         </section>
 
-        <!-- New Map Showcase Section -->
         <section id="map-showcase" class="reveal">
             <div class="section-header">
                 <h2>Location <span class="text-orange">Maps</span></h2>
-                <p class="subtitle">Click on any map to view it in full screen for better understanding.</p>
+                <p class="subtitle">Continuous slider — Click any map for full-screen view.</p>
             </div>
-            <div class="map-gallery-grid">
-                <div class="map-item"><img src="Maps/3.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/4.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/5.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/6.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/7.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/8.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/9.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/10.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/11.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/12.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/13.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/14.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/15.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/16.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/17.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/18.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/19.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/20.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/21.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/22.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/23.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/24.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/25.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/26.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/27.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/28.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/29.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/30.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/31.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/32.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/33.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/34.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/35.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/36.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/37.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/38.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/39.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/40.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/41.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/42.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/43.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/44.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/45.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/46.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/47.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/48.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/49.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/50.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/51.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/52.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/53.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/54.png" alt="Map" loading="lazy"></div>
-                <div class="map-item"><img src="Maps/55.png" alt="Map" loading="lazy"></div>
-               
-                <!-- Add more as needed -->
+            <div class="map-slider-section">
+                <div class="map-track">
+                    <div class="map-slide"><img src="Maps/9.png" alt="Map 1" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/40.png" alt="Map 2" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/11.png" alt="Map 3" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/23.png" alt="Map 4" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/44.png" alt="Map 5" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/34.png" alt="Map 1" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/41.png" alt="Map 2" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/24.png" alt="Map 3" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/14.png" alt="Map 4" loading="lazy"></div>
+                    <div class="map-slide"><img src="Maps/20.png" alt="Map 5" loading="lazy"></div>
+                </div>
             </div>
         </section>
 
@@ -633,7 +690,8 @@
                 <div class="property-card">
                     <img src="Villa.jpg" alt="Luxury Villa" class="property-img">
                     <div class="property-details">
-                        <div class="property-price">₹ 2.5 Cr</div><h3 class="property-title">Modern Luxury Villa</h3>
+                        <div class="property-price">₹ 2.5 Cr</div>
+                        <h3 class="property-title">Modern Luxury Villa</h3>
                         <div class="property-meta"><span>🛏️ 4 Beds</span><span>🚿 3 Baths</span><span>📏 3,200 sqft</span></div>
                         <a href="#contact" class="btn" style="width: 100%; text-align: center;">Inquire Now</a>
                     </div>
@@ -641,7 +699,8 @@
                 <div class="property-card">
                     <img src="Pent.jpg" alt="Premium Apartment" class="property-img">
                     <div class="property-details">
-                        <div class="property-price">₹ 1.2 Cr</div><h3 class="property-title">Skyview Penthouse</h3>
+                        <div class="property-price">₹ 1.2 Cr</div>
+                        <h3 class="property-title">Skyview Penthouse</h3>
                         <div class="property-meta"><span>🛏️ 3 Beds</span><span>🚿 2 Baths</span><span>📏 1,800 sqft</span></div>
                         <a href="#contact" class="btn" style="width: 100%; text-align: center;">Inquire Now</a>
                     </div>
@@ -649,7 +708,8 @@
                 <div class="property-card">
                     <img src="office.jpg" alt="Commercial Space" class="property-img">
                     <div class="property-details">
-                        <div class="property-price">₹ 85 L</div><h3 class="property-title">Prime Office Workspace</h3>
+                        <div class="property-price">₹ 85 L</div>
+                        <h3 class="property-title">Prime Office Workspace</h3>
                         <div class="property-meta"><span>🏢 Commercial</span><span>🚗 4 Parking</span><span>📏 1,200 sqft</span></div>
                         <a href="#contact" class="btn" style="width: 100%; text-align: center;">Inquire Now</a>
                     </div>
@@ -677,18 +737,16 @@
             </div>
             <div class="testimonial-container">
                 <div class="testimonial-track">
-                    <!-- Standard Testimonials duplicated for infinite scroll -->
-                    <div class="test-card"><div class="avatar-frame"><img src="female2.webp"></div><p>"The aesthetic is unmatched."</p><h4>Priya Sharma</h4><small>Homeowner</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="men3.jpg"></div><p>"Effortless professionalism."</p><h4>Rajesh Kumar</h4><small>Director</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="men2.jpg"></div><p>"Brilliant platform."</p><h4>Amit Patel</h4><small>Investor</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="female1.jpg"></div><p>"Thorough vetting."</p><h4>Sneha Desai</h4><small>Buyer</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="men1.png"></div><p>"Transparent pricing."</p><h4>Vikram Singh</h4><small>Developer</small></div>
-                    <!-- Duplicate -->
-                    <div class="test-card"><div class="avatar-frame"><img src="female2.webp"></div><p>"The aesthetic is unmatched."</p><h4>Priya Sharma</h4><small>Homeowner</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="men3.jpg"></div><p>"Effortless professionalism."</p><h4>Rajesh Kumar</h4><small>Director</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="men2.jpg"></div><p>"Brilliant platform."</p><h4>Amit Patel</h4><small>Investor</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="female1.jpg"></div><p>"Thorough vetting."</p><h4>Sneha Desai</h4><small>Buyer</small></div>
-                    <div class="test-card"><div class="avatar-frame"><img src="men1.png"></div><p>"Transparent pricing."</p><h4>Vikram Singh</h4><small>Developer</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="female2.webp" alt="Priya Sharma"></div><p>"The aesthetic and attention to detail at In Property Point are unmatched. They understood exactly what I was looking for and delivered."</p><h4>Priya Sharma</h4><small>Homeowner</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="men3.jpg" alt="Rajesh Kumar"></div><p>"Securing our new commercial space was effortless. Their launch brings a much-needed professionalism to the Greater Noida market."</p><h4>Rajesh Kumar</h4><small>Business Director</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="men2.jpg" alt="Amit Patel"></div><p>"A brilliant platform. The transparency, the premium listings, and the ease of communication make them my go-to for future investments."</p><h4>Amit Patel</h4><small>Property Investor</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="female1.jpg" alt="Sneha Desai"></div><p>"I was amazed by the thorough vetting process. I felt completely secure knowing they had done comprehensive background checks."</p><h4>Sneha Desai</h4><small>First-time Buyer</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="men1.png" alt="Vikram Singh"></div><p>"Their transparent pricing model is a breath of fresh air. What you see is exactly what you get. Highly recommend their services."</p><h4>Vikram Singh</h4><small>Real Estate Developer</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="female2.webp" alt="Priya Sharma"></div><p>"The aesthetic and attention to detail at In Property Point are unmatched. They understood exactly what I was looking for and delivered."</p><h4>Priya Sharma</h4><small>Homeowner</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="men3.jpg" alt="Rajesh Kumar"></div><p>"Securing our new commercial space was effortless. Their launch brings a much-needed professionalism to the Greater Noida market."</p><h4>Rajesh Kumar</h4><small>Business Director</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="men2.jpg" alt="Amit Patel"></div><p>"A brilliant platform. The transparency, the premium listings, and the ease of communication make them my go-to for future investments."</p><h4>Amit Patel</h4><small>Property Investor</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="female1.jpg" alt="Sneha Desai"></div><p>"I was amazed by the thorough vetting process. I felt completely secure knowing they had done comprehensive background checks."</p><h4>Sneha Desai</h4><small>First-time Buyer</small></div>
+                    <div class="test-card"><div class="avatar-frame"><img src="men1.png" alt="Vikram Singh"></div><p>"Their transparent pricing model is a breath of fresh air. What you see is exactly what you get. Highly recommend their services."</p><h4>Vikram Singh</h4><small>Real Estate Developer</small></div>
                 </div>
             </div>
         </section>
@@ -697,7 +755,7 @@
             <div class="contact-wrapper">
                 <div class="contact-info">
                     <h3>Get In Touch</h3>
-                    <div class="info-item"><span>Call Us</span><a href="tel:+919311911740">+91 93119 11740</a><br><a href="tel:+919899472555">+91 98994 72555</a></div>
+                    <div class="info-item"><span>Call Us</span><a href="tel:+919311911740">+91 93119 11740</a><br><a href="tel:+919899472555" style="margin-top: 5px; display: inline-block;">+91 98994 72555</a></div>
                     <div class="info-item"><span>Email Us</span><a href="mailto:contact@inpropertypoint.com">contact@inpropertypoint.com</a></div>
                     <div class="info-item"><span>Visit Us</span><p>NX-1 Tower-1,UG-24<br>Tech Zone IV, Greater Noida West</p></div>
                     <div class="info-item"><span>Working Hours</span><p>Thu - Tue | 10:00 AM - 08:00 PM</p></div>
@@ -741,13 +799,84 @@
             window.addEventListener('scroll', revealOnScroll);
             revealOnScroll();
 
-            // Lightbox Modal Logic
+            // --- Hero Slider with Dots (20 Seconds Auto) ---
+            const heroSlider = document.getElementById('heroSlider');
+            const heroDots = document.querySelectorAll('#heroDots .dot');
+            if (heroSlider && heroDots.length > 0) {
+                let heroIndex = 0;
+                let heroInterval;
+
+                const updateHeroSlider = (index) => {
+                    heroIndex = index;
+                    heroSlider.style.transform = `translateX(-${heroIndex * 100}%)`;
+                    heroDots.forEach(dot => dot.classList.remove('active'));
+                    heroDots[heroIndex].classList.add('active');
+                };
+
+                const startHeroInterval = () => {
+                    heroInterval = setInterval(() => {
+                        updateHeroSlider((heroIndex + 1) % 2);
+                    }, 20000); 
+                };
+
+                heroDots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        clearInterval(heroInterval);
+                        updateHeroSlider(i);
+                        startHeroInterval();
+                    });
+                });
+
+                startHeroInterval();
+            }
+
+            // --- Vision SYNCED Slider with Dots (20 Seconds Auto) ---
+            const visionSlider = document.getElementById('visionSlider');
+            const visionTextSlider = document.getElementById('visionTextSlider');
+            const visionDots = document.querySelectorAll('#visionDots .dot');
+            
+            if (visionSlider && visionTextSlider && visionDots.length > 0) {
+                let visionIndex = 0;
+                let visionInterval;
+
+                const updateVisionSlider = (index) => {
+                    visionIndex = index;
+                    
+                    // Slide Images
+                    visionSlider.style.transform = `translateX(-${visionIndex * 100}%)`;
+                    
+                    // Slide Text perfectly in sync
+                    visionTextSlider.style.transform = `translateX(-${visionIndex * 100}%)`;
+                    
+                    // Update Dots
+                    visionDots.forEach(dot => dot.classList.remove('active'));
+                    visionDots[visionIndex].classList.add('active');
+                };
+
+                const startVisionInterval = () => {
+                    visionInterval = setInterval(() => {
+                        updateVisionSlider((visionIndex + 1) % 2);
+                    }, 20000); 
+                };
+
+                visionDots.forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        clearInterval(visionInterval);
+                        updateVisionSlider(i);
+                        startVisionInterval();
+                    });
+                });
+
+                startVisionInterval();
+            }
+
+            // --- Lightbox Modal Logic ---
             const lightbox = document.getElementById('mapLightbox');
             const lightboxImg = document.getElementById('fullMapImage');
-            const mapItems = document.querySelectorAll('.map-item img');
+            const lightboxTargets = document.querySelectorAll('.map-slide img, #visionSlider img');
             const closeBtn = document.querySelector('.close-lightbox');
 
-            mapItems.forEach(img => {
+            lightboxTargets.forEach(img => {
                 img.addEventListener('click', () => {
                     lightbox.style.display = "block";
                     lightboxImg.src = img.src;
@@ -762,7 +891,7 @@
             closeBtn.addEventListener('click', closeLightbox);
             lightbox.addEventListener('click', (e) => { if (e.target !== lightboxImg) closeLightbox(); });
 
-            // Dark Mode
+            // --- Dark Mode ---
             const themeToggleBtn = document.getElementById('themeToggle');
             const body = document.body;
             if (localStorage.getItem('darkMode') === 'enabled') {

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team | In Property Point</title>
+    
+    <link rel="icon" href="LOGO.jpeg" type="image/jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Aesthetic Base & Variables --- */
+        :root {
+            --primary: #FF7A1F; 
+            --bg-light: #FAFAFA; 
+            --bg-card: #FFFFFF;
+            --text-dark: #2C2C2C;
+            --text-gray: #6B6B6B;
+            --border-color: rgba(0,0,0,0.05);
+            --nav-bg: rgba(250, 250, 250, 0.9);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* --- Dark Mode Variables --- */
+        body.dark-mode {
+            --bg-light: #121212;
+            --bg-card: #1E1E1E;
+            --text-dark: #F5F5F5;
+            --text-gray: #A0A0A0;
+            --border-color: rgba(255,255,255,0.1);
+            --nav-bg: rgba(18, 18, 18, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Smooth Scroll Animations --- */
+        html { scroll-behavior: smooth; }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4 { color: var(--text-dark); font-weight: 600; transition: color 0.4s ease; }
+        .text-orange { color: var(--primary); }
+        p { line-height: 1.8; color: var(--text-gray); font-weight: 300; transition: color 0.4s ease; }
+
+        /* --- Navbar --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+        
+        .header-main {
+            padding: 10px 5%; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-line {
+            background: var(--primary);
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            padding: 6px 0;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        /* --- Logo Styles --- */
+        .logo-link { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-wrapper { width: 200px; height: 75px; overflow: hidden; display: flex; justify-content: flex-start; align-items: center; background: transparent; }
+        .site-logo { width: 100%; height: 100%; object-fit: contain; object-position: left center; transform: scale(1); transform-origin: left center; transition: transform 0.3s ease; }
+        .logo-link:hover .site-logo { transform: scale(1.1); }
+        .logo-text-container { display: flex; flex-direction: column; justify-content: center; }
+        .main-title { font-size: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1.1; color: var(--text-dark); transition: color 0.4s ease; }
+        .punchline { font-size: 0.75rem; font-weight: 500; color: var(--text-gray); letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.4s ease; }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; font-size: 0.95rem; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary); }
+
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .theme-toggle { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-dark); transition: transform 0.3s ease; }
+        .theme-toggle:hover { transform: scale(1.1); }
+
+        /* --- Buttons --- */
+        .btn { display: inline-block; padding: 12px 28px; background: var(--primary); color: white; text-decoration: none; font-weight: 500; border-radius: 40px; transition: var(--transition); border: 1px solid var(--primary); letter-spacing: 1px; cursor: pointer; text-align: center; }
+        .btn:hover { background: transparent; color: var(--primary); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 122, 31, 0.15); }
+
+        /* --- Floating Social Icons --- */
+        .floating-socials { position: fixed; top: 50%; left: 0; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 9999; }
+        .social-icon { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: var(--bg-card); border-radius: 0 10px 10px 0; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; text-decoration: none; border: 1px solid var(--border-color); border-left: none; }
+        .social-icon:hover { width: 65px; }
+        .social-icon svg { width: 24px; height: 24px; }
+        .social-icon[aria-label="WhatsApp"] { color: #25D366; }
+        .social-icon[aria-label="WhatsApp"]:hover { background: #25D366; color: #fff; }
+        .social-icon[aria-label="Instagram"] { color: #E4405F; }
+        .social-icon[aria-label="Instagram"]:hover { background: #E4405F; color: #fff; }
+        .social-icon[aria-label="YouTube"] { color: #FF0000; }
+        .social-icon[aria-label="YouTube"]:hover { background: #FF0000; color: #fff; }
+        .social-icon[aria-label="Facebook"] { color: #1877F2; }
+        .social-icon[aria-label="Facebook"]:hover { background: #1877F2; color: #fff; }
+        
+        .whatsapp-wrapper { position: relative; }
+        .whatsapp-options { position: absolute; left: 100%; top: 0; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 0 10px 10px 0; box-shadow: 2px 2px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; opacity: 0; visibility: hidden; transition: all 0.3s ease; white-space: nowrap; overflow: hidden; }
+        .whatsapp-wrapper:hover .whatsapp-options { opacity: 1; visibility: visible; }
+        .whatsapp-options a { padding: 12px 20px; color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; border-bottom: 1px solid var(--border-color); transition: background 0.3s ease; }
+        .whatsapp-options a:last-child { border-bottom: none; }
+        .whatsapp-options a:hover { background: var(--bg-light); color: #25D366; }
+
+        /* --- Team Section Specific Styles --- */
+        .team-section { padding: 100px 5%; padding-top: 180px; text-align: center; }
+        .section-header { margin-bottom: 60px; }
+        .section-header h2 { font-size: 3rem; margin-bottom: 15px; }
+        .subtitle { max-width: 700px; margin: 0 auto 40px; font-size: 1.1rem; color: var(--primary); font-weight: 500; }
+
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 50px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 122, 31, 0.3);
+            box-shadow: 0 20px 40px rgba(255, 122, 31, 0.1);
+        }
+
+        .team-img-wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            padding: 6px;
+            background: linear-gradient(135deg, var(--primary), #ff9f5a);
+            position: relative;
+        }
+
+        .team-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--bg-card); /* Creates a clean cutout effect */
+            background-color: var(--bg-light);
+        }
+
+        .team-name {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .team-role {
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .team-desc {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .badge-kotw {
+            background: linear-gradient(135deg, #FFD700, #FDB931);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* --- Footer --- */
+        .main-content { flex: 1; }
+        footer { text-align: center; padding: 60px 20px 40px; background: var(--bg-card); border-top: 1px solid var(--border-color); margin-top: auto; }
+        .footer-logo { font-size: 2rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; color: var(--text-dark); transition: color 0.4s ease; }
+        .footer-service-area { color: var(--text-gray); font-size: 0.95rem; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.6; }
+
+        @media(max-width: 900px) {
+            .nav-links { display: none; }
+            .team-section { padding-top: 140px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-socials">
+        <div class="whatsapp-wrapper">
+            <a href="javascript:void(0)" class="social-icon" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.996 2.001a9.962 9.962 0 0 0-8.474 15.228l-1.521 5.556 5.679-1.494a9.96 9.96 0 1 0 4.316-19.29zM12 19.957a7.925 7.925 0 0 1-4.04-1.111l-.29-.172-3.003.79.799-2.927-.189-.3A7.944 7.944 0 1 1 12 19.957zm4.27-5.836c-.234-.117-1.385-.684-1.6-.763-.214-.078-.37-.117-.525.117-.156.234-.604.764-.741.921-.137.157-.274.176-.508.059-.234-.117-.988-.364-1.884-1.121-.698-.588-1.168-1.314-1.305-1.549-.137-.234-.015-.361.102-.478.105-.105.234-.273.351-.41.117-.136.156-.234.234-.391.078-.156.039-.292-.02-.409-.059-.117-.525-1.267-.719-1.736-.188-.458-.38-.396-.525-.403-.137-.007-.293-.007-.449-.007s-.409.059-.624.293c-.215.234-.819.8-1.026 1.488-.206.688.31 1.956.883 2.715.572.76 1.838 2.802 4.453 3.931 2.615 1.129 2.615.753 3.083.714.468-.039 1.485-.606 1.696-1.191.211-.585.211-1.085.148-1.191-.063-.106-.219-.165-.453-.282z"/>
+                </svg>
+            </a>
+            <div class="whatsapp-options">
+                <a href="https://wa.me/919311911740" target="_blank">HelpDesk</a>
+                <a href="https://wa.me/919899472555" target="_blank">Sales</a>
+            </div>
+        </div>
+        <a href="https://www.instagram.com/in_property_point" target="_blank" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+        <a href="http://www.youtube.com/@inpropertypoint" target="_blank" class="social-icon" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.582 6.186c-.23-.86-.908-1.538-1.768-1.768C18.254 4 12 4 12 4s-6.254 0-7.814.418c-.86.23-1.538.908-1.768 1.768C2 7.746 2 12 2 12s0 4.254.418 5.814c.23.86.908 1.538 1.768 1.768C7.746 20 12 20 12 20s6.254 0 7.814-.418c.86-.23 1.538-.908 1.768-1.768C22 16.254 22 12 22 12s0-4.254-.418-5.814zM10 15.464V8.536L16 12l-6 3.464z"/></svg></a>
+        <a href="https://www.facebook.com/profile.php?id=61577521786970" target="_blank" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg></a>
+    </div>
+
+    <header>
+        <div class="header-main">
+            <a href="index.html" class="logo-link">
+                <div class="logo-wrapper"><img src="SLCROPED.PNG" alt="In Property Point Logo" class="site-logo"></div>
+                <div class="logo-text-container">
+                    <span class="main-title"><span class="text-orange">IN</span> PROPERTY POINT</span>
+                    <span class="punchline">Where Property Meets Trust</span>
+                </div>
+            </a>
+            <nav class="nav-links">
+                <!-- Navigation links back to index -->
+                <a href="index.html">Home</a>
+                <a href="maps.html">Maps</a>
+                <a href="team.html" style="color: var(--primary);">Team</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">🌙</button>
+                <a href="mailto:contact@inpropertypoint.com" class="btn">Connect With Us</a>
+            </div>
+        </div>
+        <div class="welcome-line">IN PROPERTY POINT WELCOMES YOU</div>
+    </header>
+
+    <div class="main-content">
+        <section class="reveal team-section">
+            <div class="section-header">
+                <h2>Meet Our <span class="text-orange">Team</span></h2>
+                <p class="subtitle">The passionate minds driving In Property Point forward.</p>
+            </div>
+            
+            <div class="team-grid">
+                
+                <!-- Deepanshu Raj Card -->
+                <div class="team-card">
+                    <div class="team-img-wrapper">
+                        <!-- Replace src with Deepanshu's actual image -->
+                        <img src="deepanshu.jpeg" alt="Deepanshu Raj">
+                    </div>
+                    <h3 class="team-name">Deepanshu Raj</h3>
+                    <div class="team-role">CEO</div>
+                    <p class="team-desc">A young, dynamic visionary in the real estate field, bringing fresh perspectives, modern strategies, and relentless drive to the industry.</p>
+                </div>
+
+                <!-- Priyansh Card -->
+                <div class="team-card">
+                    <div class="badge-kotw">🏆 Karamchari of the Week</div>
+                    <div class="team-img-wrapper">
+                        <!-- Replace src with Priyansh's actual image -->
+                        <img src="Priyansh.jpeg" alt="Priyansh">
+                    </div>
+                    <h3 class="team-name">Priyansh</h3>
+                    <div class="team-role">Team Member</div>
+                    <p class="team-desc">Young in the field but incredibly helpful and dedicated. Always ready to go the extra mile to assist clients and support the team's success.</p>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-logo"><span class="text-orange">IN</span> <span class="main-title" style="color: var(--text-dark);">PROPERTY POINT</span></div>
+        <p class="footer-service-area">Real estate services across Greater Noida, Yamuna Expressway, Greater Noida West and nearby areas.</p>
+        <p>© 2026 In Property Point. Made with ♥️ | Priyansh & Team</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Animation
+            const reveals = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < window.innerHeight - 100) reveal.classList.add('active');
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+
+            // Dark Mode
+            const themeToggleBtn = document.getElementById('themeToggle');
+            const body = document.body;
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                body.classList.add('dark-mode');
+                themeToggleBtn.textContent = '☀️';
+            }
+            themeToggleBtn.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                const isDark = body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+                themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
+            });
+        });
+    </script>
+</body>
+</html>
